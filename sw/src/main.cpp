@@ -95,7 +95,7 @@ INT WINAPI WinMain(
     BOOL       success = TRUE;
 
     static TCHAR* pWndClassName = _T("nesdbg");
-    static TCHAR* pWndTitle     = _T("FPGA NES µ÷ÊÔÆ÷");
+    static TCHAR* pWndTitle     = _T("FPGA NES è°ƒè¯•å™¨");
 
     wcex.cbSize         = sizeof(WNDCLASSEX);
     wcex.style          = CS_HREDRAW | CS_VREDRAW;
