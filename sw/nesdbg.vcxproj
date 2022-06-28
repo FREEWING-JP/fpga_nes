@@ -16,7 +16,6 @@
   <ItemGroup>
     <ClInclude Include="rsrc\resource.h" />
     <ClInclude Include="src\dbgpacket.h" />
-    <ClInclude Include="src\debug.h" />
     <ClInclude Include="src\nesdbg.h" />
     <ClInclude Include="src\scriptmgr.h" />
     <ClInclude Include="src\serialComm.h" />
@@ -24,7 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dbgpacket.cpp" />
-    <ClCompile Include="src\debug.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\nesdbg.cpp" />
     <ClCompile Include="src\scriptmgr.cpp" />

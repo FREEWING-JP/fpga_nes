@@ -34,7 +34,6 @@
 #include <process.h>
 
 #include "util.h"
-#include "debug.h"
 
 class ScriptMgr;
 class SerialComm;
