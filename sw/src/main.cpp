@@ -59,6 +59,12 @@ static LRESULT CALLBACK WndProc(
                 case IDM_TOOLS_TESTSCRIPTS:
                     g_pNesDbg->LaunchTestScriptDlg();
                     break;
+				case IDM_JOYPAD1:
+					g_pNesDbg->TestJoypad();
+					break;
+				case IDM_STOPJOYPAD_1:
+					g_pNesDbg->StopJoypad();
+					break;
             }
             break;
         case WM_DESTROY:
@@ -82,13 +88,14 @@ INT WINAPI WinMain(
     LPSTR     pCmdLine,       // command line string, excluding program name
     INT       cmdShow)        // controls how window should be shown
 {
+
     WNDCLASSEX wcex    = {0};
     HWND       hWnd    = NULL;
     INT        ret     = 0;
     BOOL       success = TRUE;
 
     static TCHAR* pWndClassName = _T("nesdbg");
-    static TCHAR* pWndTitle     = _T("FPGA NES Debugger");
+    static TCHAR* pWndTitle     = _T("FPGA NES µ÷ÊÔÆ÷");
 
     wcex.cbSize         = sizeof(WNDCLASSEX);
     wcex.style          = CS_HREDRAW | CS_VREDRAW;

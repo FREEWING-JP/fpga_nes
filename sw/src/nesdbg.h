@@ -31,8 +31,10 @@
 #include <windows.h>
 #include <commctrl.h>
 #include <tchar.h>
+#include <process.h>
 
 #include "util.h"
+#include "debug.h"
 
 class ScriptMgr;
 class SerialComm;
@@ -52,6 +54,8 @@ public:
     VOID LaunchRawDbgDlg();
     VOID LaunchTestScriptDlg();
     VOID LoadRom();
+	VOID TestJoypad();
+	VOID StopJoypad();
 
     ScriptMgr*  GetScriptMgr() { return m_pScriptMgr; }
     SerialComm* GetSerialComm() { return m_pSerialComm; }
@@ -79,6 +83,8 @@ private:
 };
 
 extern NesDbg* g_pNesDbg;
+
+
 
 #endif // NESDBG_H
 
