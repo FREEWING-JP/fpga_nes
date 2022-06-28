@@ -70,7 +70,13 @@ BOOL SerialComm::Init()
 
 	WCHAR* comPath = (WCHAR*)malloc((wcslen(L"\\\\.\\COM")+10)*sizeof(WCHAR));
 	wcscpy(comPath, L"\\\\.\\COM");
-	wcscat(comPath, szArgList[1]);
+	if (argCount > 1) {
+		wcscat(comPath, szArgList[1]);
+	}
+	else {
+		// Default COM21
+		wcscat(comPath, L"21");
+	}
 
     if (ret)
     {
