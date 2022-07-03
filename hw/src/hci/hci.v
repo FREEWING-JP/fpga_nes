@@ -47,9 +47,7 @@ module hci
   output wire [15:0] ppu_vram_a,       // ppu memory address
   output wire [ 7:0] ppu_vram_dout,    // ppu data bus [output]
   output wire [39:0] cart_cfg,         // cartridge config data (from iNES header)
-  output wire        cart_cfg_upd,     // pulse on cart_cfg update so cart can reset
-  output wire [ 7:0] joypad_cfg,
-  output wire        joypad_cfg_upd
+  output wire        cart_cfg_upd      // pulse on cart_cfg update so cart can reset
 );
 
 // Debug packet opcodes.
@@ -65,8 +63,7 @@ localparam [7:0] OP_ECHO                 = 8'h00,
                  OP_PPU_MEM_RD           = 8'h09,
                  OP_PPU_MEM_WR           = 8'h0A,
                  OP_PPU_DISABLE          = 8'h0B,
-                 OP_CART_SET_CFG         = 8'h0C,
-					  OP_JOYPAD_SET_CFG		  = 8'h0D;
+                 OP_CART_SET_CFG         = 8'h0C;
 
 // Error code bit positions.
 localparam DBG_UART_PARITY_ERR = 0,
@@ -91,8 +88,7 @@ localparam [4:0] S_DISABLED             = 5'h00,
                  S_PPU_MEM_WR_STG_1     = 5'h0F,
                  S_PPU_DISABLE          = 5'h10,
                  S_CART_SET_CFG_STG_0   = 5'h11,
-                 S_CART_SET_CFG_STG_1   = 5'h12,
-					  S_JOYPAD_CFG_STG_0		 = 5'h13;
+                 S_CART_SET_CFG_STG_1   = 5'h12;
 
 reg [ 4:0] q_state,            d_state;
 reg [ 2:0] q_decode_cnt,       d_decode_cnt;
@@ -101,8 +97,6 @@ reg [15:0] q_addr,             d_addr;
 reg [ 1:0] q_err_code,         d_err_code;
 reg [39:0] q_cart_cfg,         d_cart_cfg;
 reg        q_cart_cfg_upd,     d_cart_cfg_upd;
-reg [ 7:0] q_joypad_cfg,       d_joypad_cfg;
-reg        q_joypad_cfg_upd,   d_joypad_cfg_upd; 
 
 // UART output buffer FFs.
 reg  [7:0] q_tx_data, d_tx_data;
@@ -127,8 +121,6 @@ always @(posedge clk)
         q_err_code         <= 0;
         q_cart_cfg         <= 40'h0000000000;
         q_cart_cfg_upd     <= 1'b0;
-		  q_joypad_cfg       <= 8'h00;
-		  q_joypad_cfg_upd   <= 1'b0; 
         q_tx_data          <= 8'h00;
         q_wr_en            <= 1'b0;
       end
@@ -141,8 +133,6 @@ always @(posedge clk)
         q_err_code         <= d_err_code;
         q_cart_cfg         <= d_cart_cfg;
         q_cart_cfg_upd     <= d_cart_cfg_upd;
-		  q_joypad_cfg       <= d_joypad_cfg;
-		  q_joypad_cfg_upd   <= d_joypad_cfg_upd; 
         q_tx_data          <= d_tx_data;
         q_wr_en            <= d_wr_en;
       end
@@ -178,8 +168,6 @@ always @*
     d_err_code     = q_err_code;
     d_cart_cfg     = q_cart_cfg;
     d_cart_cfg_upd = 1'b0;
-	 d_joypad_cfg   = q_joypad_cfg;
- 	 d_joypad_cfg_upd = 1'b0;
 
     rd_en         = 1'b0;
     d_tx_data     = 8'h00;
@@ -217,10 +205,6 @@ always @*
                   d_tx_data = 8'h00;  // Write "0" over UART to indicate we are not in a debug break
                   d_wr_en   = 1'b1;
                 end
-				  else if (rd_data == OP_JOYPAD_SET_CFG)
-				    begin
-					   d_state = S_JOYPAD_CFG_STG_0;
-                end						
             end
         end
       S_DECODE:
@@ -243,7 +227,6 @@ always @*
                 OP_PPU_MEM_WR:           d_state = S_PPU_MEM_WR_STG_0;
                 OP_PPU_DISABLE:          d_state = S_PPU_DISABLE;
                 OP_CART_SET_CFG:         d_state = S_CART_SET_CFG_STG_0;
-					 OP_JOYPAD_SET_CFG:		  d_state = S_JOYPAD_CFG_STG_0;
                 OP_DBG_RUN:
                   begin
                     d_state = S_DISABLED;
@@ -659,31 +642,16 @@ always @*
                   d_cart_cfg_upd = 1'b1;
                 end
             end
-        end		
-		// --- JOYPAD_READ_FLAG ---
-		S_JOYPAD_CFG_STG_0:
-		  begin
-		    if (!rx_empty)
-            begin
-              rd_en         = 1'b1;                       // pop packet byte off uart fifo
-              d_joypad_cfg  = rd_data;
-
-              // After last byte of packet, return to decode stage.
-				  d_state        = S_DISABLED;
-				  d_joypad_cfg_upd = 1'b1;
-            end
-		  end
+        end
     endcase
   end
 
 assign cpu_a            = q_addr;
-assign active           = (q_state != S_DISABLED && q_state != S_JOYPAD_CFG_STG_0);
+assign active           = (q_state != S_DISABLED);
 assign ppu_vram_a       = q_addr;
 assign ppu_vram_dout    = rd_data;
 assign cart_cfg         = q_cart_cfg;
 assign cart_cfg_upd     = q_cart_cfg_upd;
-assign joypad_cfg			= q_joypad_cfg;
-assign joypad_cfg_upd	= q_joypad_cfg_upd;
 
 endmodule
 
