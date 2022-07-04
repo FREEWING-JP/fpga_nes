@@ -1,3 +1,30 @@
+## FPGA Spartan-6 XC6SLX16でファミコンを動かす！
+Xilinx FPGA Spartan-6 XC6SLX16 NES clone in ALINX AX309  
+http://www.neko.ne.jp/~freewing/fpga/xilinx_spartan_6_nes_ax309/
+
+Nexys 3 Spartan-6 FPGA board用の実装を ALINX AX309 cloneで動く様に改変したものです。  
+
+オリジナルの https://github.com/brianbennett/fpga_nes に https://github.com/brianbennett/fpga_nes/issues/34 の[denghongcai@021a890](https://github.com/denghongcai/fpga_nes/commit/021a890721ca7dfa8bf397dcce3d0221d1f0095a)のパッチを適用しています。
+
+* オリジナルの https://github.com/brianbennett/fpga_nes
+```
+[Windows PC] nesdbg.exe -- (38400bps) -- [Nexys 3 Spartan-6 FPGA board] -- VGA display (RGB332,640x480,31KHz)
+                                                      +-- [actual NES Controller(4021 shift register)]  
+```
+* denghongcai改造版 https://github.com/denghongcai/fpga_nes
+```
+[Windows PC] nesdbg.exe -- (256000bps) -- [Nexys 3 Spartan-6 FPGA board] -- VGA display (RGB444,640x480,31KHz)  
+       +-- USB joypad
+```
+* FREE WING改造版 https://github.com/FREEWING-JP/fpga_nes
+```
+[Windows PC] nesdbg.exe -- (256000bps) -- [ALINX AX309 clone Spartan-6 FPGA board] -- VGA display (RGB444,640x480,31KHz)
+       +-- USB joypad
+```
+![pic 1](https://raw.githubusercontent.com/FREEWING-JP/fpga_nes/master/assets/xilinx_spartan_6_nes_ax309_1.jpg)  
+![pic 2](https://raw.githubusercontent.com/FREEWING-JP/fpga_nes/master/assets/xilinx_spartan_6_nes_ax309_2.jpg)
+
+---
 **fpga_nes** is an fpga-targeted Nintento Entertainment System emulator written in Verilog.  It is currently under development, and is most notably missing support for mappers and the DMC sound channel.  At this point, it runs most NROM games capably (e.g., Super Mario Brothers, Excitebike).
 
 In addition, this project includes a C++ Windows application called NesDbg, which communicates with the FPGA over USB UART to load ROMs, run unit tests, readwrite memory, etc.
