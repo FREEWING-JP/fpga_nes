@@ -70,7 +70,13 @@ BOOL SerialComm::Init()
 
 	WCHAR* comPath = (WCHAR*)malloc((wcslen(L"\\\\.\\COM")+10)*sizeof(WCHAR));
 	wcscpy(comPath, L"\\\\.\\COM");
-	wcscat(comPath, szArgList[1]);
+	if (argCount > 1) {
+		wcscat(comPath, szArgList[1]);
+	}
+	else {
+		// Default COM21
+		wcscat(comPath, L"21");
+	}
 
     if (ret)
     {
@@ -87,12 +93,12 @@ BOOL SerialComm::Init()
             ret = FALSE;
             if (GetLastError() == ERROR_FILE_NOT_FOUND)
             {
-                MessageBox(NULL, _T("\"COM23\" file not found."), _T("NesDbg"), MB_OK);
-            }
+                MessageBox(NULL, _T("\"COM\" file not found."), _T("NesDbg"), MB_OK);
+			}
             else
             {
-                MessageBox(NULL, _T("Unknown error initializing COM23"), _T("NesDbg"), MB_OK);
-            }
+                MessageBox(NULL, _T("Unknown error initializing COM"), _T("NesDbg"), MB_OK);
+			}
         }
     }
 
@@ -107,8 +113,8 @@ BOOL SerialComm::Init()
         if (!GetCommState(m_hSerialComm, &serialConfig))
         {
             ret = FALSE;
-            MessageBox(NULL, _T("Error getting comm state for COM23."), _T("NesDbg"), MB_OK);
-        }
+            MessageBox(NULL, _T("Error getting comm state for COM."), _T("NesDbg"), MB_OK);
+		}
     }
 
     if (ret)
@@ -121,8 +127,8 @@ BOOL SerialComm::Init()
         if (!SetCommState(m_hSerialComm, &serialConfig))
         {
             ret = FALSE;
-            MessageBox(NULL, _T("Error setting comm state for COM5."), _T("NesDbg"), MB_OK);
-        }
+			MessageBox(NULL, _T("Error setting comm state for COM."), _T("NesDbg"), MB_OK);
+		}
     }
 
     if (ret)
@@ -138,8 +144,8 @@ BOOL SerialComm::Init()
         if (!SetCommTimeouts(m_hSerialComm, &timeouts))
         {
             ret = FALSE;
-            MessageBox(NULL, _T("Error setting timeout state for COM5."), _T("NesDbg"), MB_OK);
-        }
+			MessageBox(NULL, _T("Error setting timeout state for COM."), _T("NesDbg"), MB_OK);
+		}
     }
 
     if (ret)

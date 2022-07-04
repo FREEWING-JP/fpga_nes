@@ -2,3 +2,7 @@
 !nes.xise
 !.gitignore
 !filter.filter
+!*.ucf
+!*.v
+!*.xco
+!*.xise

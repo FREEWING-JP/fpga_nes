@@ -71,7 +71,14 @@ BOOL ScriptMgr::Init()
     // Initialize lua virtual machine.
     if (ret)
     {
+        // 7.3 - Changes in the API
+        // http://www.lua.org/manual/5.1/manual.html#7.3
+#if LUA_VERSION_NUM >= 502
+        m_pLuaVm = luaL_newstate();
+#else
+        // lua 5.1
         m_pLuaVm = lua_open();
+#endif
 
         ret = (m_pLuaVm) ? TRUE : FALSE;
     }
@@ -107,7 +114,15 @@ BOOL ScriptMgr::Init()
             { NULL,          NULL           }
         };
 
+        // No luaL_register in 5.2 #2
+        // https://github.com/TheLinx/lao/issues/2
+#if LUA_VERSION_NUM >= 502
+        lua_newtable(m_pLuaVm);
+        luaL_setfuncs(m_pLuaVm, nesDbgLib, 0);
+#else
+        // lua 5.1
         luaL_register(m_pLuaVm, "nesdbg", nesDbgLib);
+#endif
     }
 
     return ret;
