@@ -6,6 +6,11 @@ Nexys 3 Spartan-6 FPGA board用の実装を ALINX AX309 cloneで動く様に改�
 
 オリジナルの https://github.com/brianbennett/fpga_nes に https://github.com/brianbennett/fpga_nes/issues/34 の[denghongcai@021a890](https://github.com/denghongcai/fpga_nes/commit/021a890721ca7dfa8bf397dcce3d0221d1f0095a)のパッチを適用しています。
 
+**Development Environment:**
+
+1. [ISE 14.7 WebPack](https://japan.xilinx.com/downloadNav/vivado-design-tools/archive-ise.html) (free)
+2. [Visual Studio 2017 Community](https://visualstudio.microsoft.com/ja/vs/older-downloads/) (free)
+
 * オリジナルの https://github.com/brianbennett/fpga_nes
 ```
 [Windows PC] nesdbg.exe -- (38400bps) -- [Nexys 3 Spartan-6 FPGA board] -- VGA display (RGB332,640x480,31KHz)
