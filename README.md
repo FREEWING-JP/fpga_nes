@@ -26,6 +26,21 @@ Nexys 3 Spartan-6 FPGA board用の実装を ALINX AX309 cloneで動く様に改�
 [Windows PC] nesdbg.exe -- (256000bps) -- [ALINX AX309 clone Spartan-6 FPGA board] -- VGA display (RGB444,640x480,31KHz)
        +-- USB joypad
 ```
+
+* fpga_nes is "Only mapper 0 is supported."  
+Mapper 0 = PRG = 16/32KB、CHR = 8KB  
+
+* Transfer .nes Image  
+Launch nesdbg.exe  
+```
+rem Launch nesdbg.exe
+rem 123 as COM port COM123
+nesdbg.exe 123
+
+rem Select File and Load ROM...
+```
+![nesdbg.exe](https://raw.githubusercontent.com/FREEWING-JP/fpga_nes/master/assets/fpga_nes_load_nes_cassete_game_image.png)  
+
 ![pic 1](https://raw.githubusercontent.com/FREEWING-JP/fpga_nes/master/assets/xilinx_spartan_6_nes_ax309_1.jpg)  
 ![pic 2](https://raw.githubusercontent.com/FREEWING-JP/fpga_nes/master/assets/xilinx_spartan_6_nes_ax309_2.jpg)
 
