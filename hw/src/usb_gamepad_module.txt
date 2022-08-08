@@ -1,0 +1,16 @@
+USB GAMEPAD MODULE
+USB joypad (Low Speed only)
+
+Copy
+./hw/src/usb_gamepad_module.ngc
+to
+./hw/ise/
+Before Synthesize .
+
+https://github.com/FREEWING-JP/fpga_nes/tree/feature/support_usb_gamepad
+
+Tested BUFFALO model BSGP815GY CLASSIC USB GAMEPAD
+
+usb_gamepad_module
+Copyright (c) 2022 FREE WING,Y.Sakamoto
+http://www.neko.ne.jp/~freewing/fpga/usb_host_fpga/
