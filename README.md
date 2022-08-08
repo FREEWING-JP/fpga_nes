@@ -4,7 +4,7 @@ http://www.neko.ne.jp/~freewing/fpga/xilinx_spartan_6_nes_ax309/
 
 Nexys 3 Spartan-6 FPGA board用の実装を ALINX AX309 cloneで動く様に改変したものです。  
 
-オリジナルの https://github.com/brianbennett/fpga_nes に https://github.com/brianbennett/fpga_nes/issues/34 の[denghongcai@021a890](https://github.com/denghongcai/fpga_nes/commit/021a890721ca7dfa8bf397dcce3d0221d1f0095a)のパッチを適用しています。
+オリジナルの https://github.com/brianbennett/fpga_nes に https://github.com/brianbennett/fpga_nes/issues/34 の[denghongcai@021a890](https://github.com/denghongcai/fpga_nes/commit/021a890721ca7dfa8bf397dcce3d0221d1f0095a)のパッチを適用しています。  
 
 **Development Environment:**
 
@@ -44,6 +44,33 @@ rem Select File and Load ROM...
 ![pic 1](https://raw.githubusercontent.com/FREEWING-JP/fpga_nes/master/assets/xilinx_spartan_6_nes_ax309_1.jpg)  
 ![pic 2](https://raw.githubusercontent.com/FREEWING-JP/fpga_nes/master/assets/xilinx_spartan_6_nes_ax309_2.jpg)
 
+---
+* FREE WING改造版 https://github.com/FREEWING-JP/fpga_nes/tree/feature/support_usb_gamepad with USB GamePad ver.
+```
+[Windows PC] nesdbg.exe -- (256000bps) -- [ALINX AX309 clone Spartan-6 FPGA board] -- VGA display (RGB444,640x480,31KHz)
+                                                          +-- USB joypad (Low Speed only)
+```
+### Notice Before Synthesize
+```
+Copy
+./hw/src/usb_gamepad_module.ngc
+to
+./hw/ise/
+Before Synthesize .
+```
+
+## USB HOST機能を FPGAに実装する方法、FPGAの GPIOに USB HIDデバイスを接続したい！！
+http://www.neko.ne.jp/~freewing/fpga/usb_host_fpga/
+Support Low Speed USB Gamepad only .  
+
+![usb 1](https://raw.githubusercontent.com/FREEWING-JP/fpga_nes/feature/support_usb_gamepad/assets/usb_host_fpga_schematics.png)  
+![usb 2](https://raw.githubusercontent.com/FREEWING-JP/fpga_nes/feature/support_usb_gamepad/assets/usb_host_fpga_18.jpg)  
+I don't have 150k ohm resistor . So I use 220k ohm .  
+![usb 3](https://raw.githubusercontent.com/FREEWING-JP/fpga_nes/feature/support_usb_gamepad/assets/usb_connector_pin_assign.jpg)  
+![usb 4](https://raw.githubusercontent.com/FREEWING-JP/fpga_nes/feature/support_usb_gamepad/assets/buffalo_bsgp815gy_usb_gamepad_1.jpg)  
+BUFFALO model BSGP815GY CLASSIC USB GAMEPAD  
+![usb 5](https://raw.githubusercontent.com/FREEWING-JP/fpga_nes/feature/support_usb_gamepad/assets/usb_host_fpga_receive_3.png)  
+USB Protocol wave form .  
 ---
 **fpga_nes** is an fpga-targeted Nintento Entertainment System emulator written in Verilog.  It is currently under development, and is most notably missing support for mappers and the DMC sound channel.  At this point, it runs most NROM games capably (e.g., Super Mario Brothers, Excitebike).
 
