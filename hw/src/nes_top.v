@@ -44,7 +44,9 @@ module nes_top
   //output wire       NES_JOYPAD_LATCH,  // joypad output latch signal
   output wire       AUDIO,             // pwm output audio channel
   output wire		  AUDIO_SD,				// OP enable/disable pin
-  output wire [7:0] led
+  output wire [7:0] led,
+  input  wire [7:0] joypad_cfg,
+  input  wire       joypad_cfg_upd
 );
 
 assign AUDIO_SD = 1'b1; //enable AUD_SD
@@ -76,8 +78,8 @@ wire        rp2a03_dbgreg_wr;
 wire [ 7:0] rp2a03_dbgreg_dout;
 
 // JOYPAD
-wire [ 7:0] joypad_cfg;
-wire        joypad_cfg_upd;
+// wire [ 7:0] joypad_cfg;
+// wire        joypad_cfg_upd;
 
 rp2a03 rp2a03_blk(
   .clk_in(CLK_100MHZ),
@@ -246,9 +248,9 @@ hci hci_blk(
   .ppu_vram_a(hci_ppu_vram_a),
   .ppu_vram_dout(hci_ppu_vram_dout),
   .cart_cfg(cart_cfg),
-  .cart_cfg_upd(cart_cfg_upd),
-  .joypad_cfg(joypad_cfg),
-  .joypad_cfg_upd(joypad_cfg_upd)
+  .cart_cfg_upd(cart_cfg_upd)
+  // .joypad_cfg(joypad_cfg),
+  // .joypad_cfg_upd(joypad_cfg_upd)
 );
 
 // Mux cpumc signals from rp2a03 or hci blk, depending on debug break state (hci_active).

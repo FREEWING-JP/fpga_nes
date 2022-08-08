@@ -50,3 +50,7 @@ NET "led<0>" LOC = "P4"  | IOSTANDARD = LVCMOS33; // A
 NET "led<1>" LOC = "N5"  | IOSTANDARD = LVCMOS33; // B
 NET "led<2>" LOC = "P5"  | IOSTANDARD = LVCMOS33; // SELECT
 NET "led<3>" LOC = "M6"  | IOSTANDARD = LVCMOS33; // START
+
+# ==== USB ====
+NET "usb_dp" LOC = "B6" | IOSTANDARD = LVCMOS33;
+NET "usb_dm" LOC = "B5" | IOSTANDARD = LVCMOS33;

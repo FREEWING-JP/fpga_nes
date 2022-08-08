@@ -18,7 +18,10 @@ module nes_top_ax309
   // output wire       NES_JOYPAD_CLK,    // joypad output clk signal
   // output wire       NES_JOYPAD_LATCH,  // joypad output latch signal
   output wire       AUDIO,             // pwm output audio channel
-  output wire [3:0] led
+  output wire [3:0] led,
+
+  inout         usb_dp,
+  inout         usb_dm
 );
 
 wire BTN_SOUTH = ~BTN_nRESET;
@@ -29,17 +32,23 @@ assign led = led8[3:0]; // START, SELECT, B, A
 // assign led = led8[7:4]; // Right, Left, Down, Up
 
 wire CLK_100MHZ;
+wire CLK_24MHz;
 wire RESET = 1'b0;
 
-DCM_50MHz_to_100MHz instance_name(
+DCM_50MHz_to_100MHz dcm(
     // Clock in ports
     .CLK_IN1(CLK_50MHZ),    // IN
     // Clock out ports
     .CLK_OUT1(CLK_100MHZ),  // OUT
+    .CLK_OUT2(CLK_24MHz),     // OUT
     // Status and control signals
     .RESET(RESET),          // IN
     .LOCKED()         // OUT
 );
+
+// JOYPAD
+wire [ 7:0] joypad_cfg;
+wire        joypad_cfg_upd;
 
 nes_top nes_top(
   .CLK_100MHZ(CLK_100MHZ),
@@ -54,9 +63,37 @@ nes_top nes_top(
   .VGA_GREEN(VGA_GREEN),
   .VGA_BLUE(VGA_BLUE),
   .AUDIO(AUDIO),
-  .AUDIO_SD(),
-  .led(led8)
+//  .AUDIO_SD(),
+//  .led(led8)
+  .joypad_cfg(joypad_cfg),
+  .joypad_cfg_upd(joypad_cfg_upd)
 );
 
-endmodule
+// Instantiate the module
+wire [7:0] usb_joy;
+wire usb_joy_clk;
+wire usb_out_gate;
+wire usb_dp_o;
+wire usb_dm_o;
+usb_gamepad_module usb_gamepad_module (
+    .clk24(CLK_24MHz), 
+    .rst(!BTN_nRESET), 
+    .uart_rx(1'b0), 
+    .uart_tx(), 
+    .usb_gamepad_data(usb_joy), 
+	.usb_gamepad_ena(usb_joy_clk),
+    .usb_out_gate(usb_out_gate), 
+    .usb_dp_in(usb_dp), 
+    .usb_dm_in(usb_dm), 
+    .usb_dp_out(usb_dp_o), 
+    .usb_dm_out(usb_dm_o)
+    );
 
+assign usb_dp = usb_out_gate ? usb_dp_o : 1'bz;
+assign usb_dm = usb_out_gate ? usb_dm_o : 1'bz;
+assign led8 = usb_joy; // START, SELECT, B, A
+
+assign joypad_cfg_upd = usb_joy_clk;
+assign joypad_cfg = usb_joy;
+
+endmodule
