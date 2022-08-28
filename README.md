@@ -65,7 +65,7 @@ Support Low Speed USB Gamepad only .
 
 ![usb 1](https://raw.githubusercontent.com/FREEWING-JP/fpga_nes/feature/support_usb_gamepad/assets/usb_host_fpga_schematics.png)  
 ![usb 2](https://raw.githubusercontent.com/FREEWING-JP/fpga_nes/feature/support_usb_gamepad/assets/usb_host_fpga_18.jpg)  
-I don't have 150k ohm resistor . So I use 220k ohm .  
+I don't have 15k ohm resistor . So I use 22k ohm .  
 ![usb 3](https://raw.githubusercontent.com/FREEWING-JP/fpga_nes/feature/support_usb_gamepad/assets/usb_connector_pin_assign.jpg)  
 ![usb 4](https://raw.githubusercontent.com/FREEWING-JP/fpga_nes/feature/support_usb_gamepad/assets/buffalo_bsgp815gy_usb_gamepad_1.jpg)  
 BUFFALO model BSGP815GY CLASSIC USB GAMEPAD  
